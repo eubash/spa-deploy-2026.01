@@ -8,17 +8,21 @@ function render(hash?: string) {
       : window.location.href;
 }
 
-// if (PRODUCTION) {
-//   document.querySelectorAll("a").forEach((link) => {
-//     link.href = PREFIX + link.pathname;
-//   });
-// }
+if (PRODUCTION) {
+  document.querySelectorAll("a").forEach((link) => {
+    link.href = PREFIX + link.pathname;
+  });
+}
 
 document.body.addEventListener("click", (ev) => {
   if ((ev.target as HTMLElement).matches("a")) {
-    const hash = (ev.target as HTMLAnchorElement).hash;
+    ev.preventDefault();
 
-    render(hash);
+    const url = (ev.target as HTMLAnchorElement).href;
+
+    window.history.pushState({}, '', url);
+
+    render();
   }
 });
 
